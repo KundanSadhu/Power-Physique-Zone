@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Membership Plans</title>
+    
+    <style>
+        /* CSS Inlined Here (from style.css) */
+        
+        /* Basic Reset and Variables */
+        :root {
+            --primary-color: #e63946; /* A sporty red */
+            --secondary-color: #1d3557; /* A deep blue/black */
+            --accent-color: #a8dadc;
+            --background-color: #f1faee;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        /* Header/Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--secondary-color);
+            color: var(--background-color);
+        }
+
+        .hero h1 {
+            margin-bottom: 10px;
+        }
+
+        /* Pricing Cards Container */
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        /* Individual Plan Card */
+        .plan-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        /* Price Styling */
+        .price {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+        }
+
+        .price span {
+            font-size: 0.4em;
+            font-weight: normal;
+            color: #666;
+        }
+
+        /* Features List */
+        .features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background-color: #c42b38;
+        }
+
+        .secondary-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .secondary-btn:hover {
+            background-color: #15263d;
+        }
+
+        /* Popular Plan Highlight */
+        .plan-card.popular {
+            transform: scale(1.05); /* Make it slightly larger */
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            /* animation: pulse 1.5s infinite; (Removed animation for simplicity) */
+        }
+
+        /* Trial CTA Section */
+        .trial-cta {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--accent-color);
+            border-top: 1px solid #ddd;
+        }
+
+        .trial-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            margin-top: 15px;
+        }
+
+        .trial-btn:hover {
+            background-color: #3b5071;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .pricing-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .plan-card {
+                max-width: 90%;
+            }
+
+            .plan-card.popular {
+                transform: scale(1); /* Reset scale on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <h1>🏋️‍♂️ Unlock Your Full Potential</h1>
+        <p>Choose the plan that fits your fitness goals and budget.</p>
+    </header>
+
+    <main class="pricing-container">
+        
+        <div class="plan-card" id="bronze">
+            <h2>Bronze</h2>
+            <p class="price">$39<span>/Month</span></p>
+            <ul class="features">
+                <li>✅ 12-Month Contract</li>
+                <li>✅ Standard Access Hours</li>
+                <li>❌ Group Classes</li>
+                <li>✅ Access to Sauna/Pool</li>
+            </ul>
+            <button onclick="selectPlan('Bronze')" class="btn primary-btn">Select Bronze</button>
+        </div>
+
+        <div class="plan-card popular" id="silver">
+            <div class="popular-tag">Most Popular</div>
+            <h2>Silver</h2>
+            <p class="price">$59<span>/Month</span></p>
+            <ul class="features">
+                <li>✅ **Month-to-Month**</li>
+                <li>✅ **24/7 Access**</li>
+                <li>✅ Unlimited Group Classes</li>
+                <li>⭐ 1 Free PT Session/Year</li>
+            </ul>
+            <button onclick="selectPlan('Silver')" class="btn secondary-btn">Select Silver</button>
+        </div>
+
+        <div class="plan-card" id="gold">
+            <h2>Gold</h2>
+            <p class="price">$99<span>/Month</span></p>
+            <ul class="features">
+                <li>✅ **Month-to-Month**</li>
+                <li>✅ **24/7 Access**</li>
+                <li>✅ Priority Class Booking</li>
+                <li>⭐ 1 Free PT Session/Month</li>
+                <li>⭐ Premium Locker Service</li>
+            </ul>
+            <button onclick="selectPlan('Gold')" class="btn primary-btn">Select Gold</button>
+        </div>
+        <form action="final.html" method="get"></form>
+
+    </main>
+
+    <section class="trial-cta">
+        <h3>Not ready to commit?</h3>
+        <p>Start with our **7-Day Free Pass** and experience the gym firsthand.</p>
+        <button onclick="window.location.href='#'" class="btn trial-btn">Get Free Pass</button>
+    </section>
+
+    <script>
+        // JavaScript Inlined Here (from script.js)
+
+        /**
+         * Handles the selection of a membership plan.
+         * This function gives an alert as feedback.
+         */
+        function selectPlan(planName) {
+            console.log("Plan selected: " + planName);
+            alert("You have selected the " + planName + " plan! Redirecting you to checkout...");
+        }
+    </script>
+</body>
+</html>
