@@ -1,0 +1,89 @@
+-- Power Physique Zone Database Schema
+
+-- 1. Users Table (For login and general user data)
+CREATE TABLE Users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    full_name VARCHAR(100),
+    phone_number VARCHAR(15),
+    address TEXT,
+    role VARCHAR(20) DEFAULT 'Member', -- 'Member', 'Admin', 'Co-Founder'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Membership Plans (Data for Bronze, Silver, Gold plans)
+CREATE TABLE Membership_Plans (
+    plan_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plan_name VARCHAR(50) NOT NULL UNIQUE,
+    price_usd DECIMAL(10, 2) NOT NULL,
+    billing_cycle VARCHAR(20) DEFAULT 'Monthly', -- 'Monthly', 'Annual'
+    description TEXT
+);
+
+-- 3. User Subscriptions (To track who has which plan)
+CREATE TABLE User_Subscriptions (
+    subscription_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    plan_id INTEGER NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    is_active BOOLEAN DEFAULT 1,
+    auto_renewal BOOLEAN DEFAULT 1,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (plan_id) REFERENCES Membership_Plans(plan_id)
+);
+
+-- 4. Products Table (For Nutrition/Food Diet items)
+CREATE TABLE Products (
+    product_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(50) NOT NULL, -- 'Protein', 'FoodDiet', 'Equipment'
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT,
+    pack_size VARCHAR(50),
+    image_url VARCHAR(255)
+);
+
+-- 5. Gym Locations (For tracking branches listed on the Workout page)
+CREATE TABLE Gym_Locations (
+    location_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    city VARCHAR(50) NOT NULL,
+    area VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 6. User Questions (The Q&A section from Final.html)
+-- The Final.js script uses 'username' and 'question' fields, so we keep those.
+CREATE TABLE User_Questions (
+    question_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name VARCHAR(100) NOT NULL,
+    question_text TEXT NOT NULL,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    answer_text TEXT,
+    answered_by_user_id INTEGER, -- Admin or Co-Founder
+    FOREIGN KEY (answered_by_user_id) REFERENCES Users(user_id)
+);
+
+-- 7. Contact Messages (The Contact Us form from Final.html)
+CREATE TABLE Contact_Messages (
+    message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    subject VARCHAR(255),
+    message_text TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 8. Customer Reviews (For gym/product ratings)
+-- Since the frontend rating is simple, we keep the schema simple.
+CREATE TABLE Customer_Reviews (
+    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER, -- Optional: Can be NULL if not a logged-in user
+    product_id INTEGER, -- Link to a specific product being rated
+    rating TINYINT NOT NULL, -- 1 to 5 stars
+    review_text TEXT,
+    reviewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
